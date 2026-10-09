@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html lang="pt" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VoltMaster Pro — Curso Completo de Eletricidade Automóvel</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            900: '#1e3a8a',
+                        },
+                        darkBg: '#0f172a',
+                        darkCard: '#1e293b'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .font-mono-code { font-family: 'JetBrains Mono', monospace; }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); }
+        ::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 4px; }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-darkBg text-slate-800 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-300">
+
+    <!-- Navbar / Header -->
+    <header class="sticky top-0 z-50 bg-white/90 dark:bg-darkCard/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="router.navigate('home')">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-amber-500 flex items-center justify-center text-white shadow-lg shadow-blue-500/20">
+                    <i class="fa-solid fa-bolt-lightning text-lg animate-pulse"></i>
+                </div>
+                <div>
+                    <span class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-blue-600 to-amber-500 bg-clip-text text-transparent">VoltMaster</span>
+                    <span class="text-xs block font-semibold text-slate-400 tracking-widest uppercase">Eletricidade Automóvel</span>
+                </div>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center space-x-1">
+                <button onclick="router.navigate('home')" class="nav-link px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-50 dark:hover:bg-slate-800 transition-colors" data-page="home">Início</button>
+                <button onclick="router.navigate('dashboard')" class="nav-link px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-50 dark:hover:bg-slate-800 transition-colors" data-page="dashboard">Painel & Níveis</button>
+                <button onclick="router.navigate('lab')" class="nav-link px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-50 dark:hover:bg-slate-800 transition-colors" data-page="lab">Bancada Virtual</button>
+                <button onclick="router.navigate('workshop')" class="nav-link px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-50 dark:hover:bg-slate-800 transition-colors" data-page="workshop">Oficina de Diagnóstico</button>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center space-x-3">
+                <button onclick="toggleTheme()" class="p-2 rounded-xl text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" title="Alternar Tema">
+                    <i id="themeIcon" class="fa-solid fa-moon text-lg"></i>
+                </button>
+                <button onclick="router.navigate('dashboard')" class="hidden sm:flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl text-sm font-semibold shadow-lg shadow-blue-600/20 transition-all">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                    <span>Continuar Curso</span>
+                </button>
+                <!-- Mobile menu button -->
+                <button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-xl text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile dropdown menu -->
+        <div id="mobileMenu" class="hidden md:hidden px-4 pt-2 pb-4 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-darkCard space-y-2">
+            <button onclick="router.navigate('home'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-50 dark:hover:bg-slate-800">Início</button>
+            <button onclick="router.navigate('dashboard'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-50 dark:hover:bg-slate-800">Painel & Níveis</button>
+            <button onclick="router.navigate('lab'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-50 dark:hover:bg-slate-800">Bancada Virtual & Circuitos</button>
+            <button onclick="router.navigate('workshop'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-50 dark:hover:bg-slate-800">Oficina de Diagnóstico</button>
+        </div>
+    </header>
+
+    <!-- Main Dynamic Content Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        
+        <!-- PAGE 1: HOME -->
+        <div id="page-home" class="page-view space-y-12">
+            <!-- Hero Section -->
+            <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white p-8 sm:p-12 shadow-2xl border border-slate-800">
+                <div class="absolute -right-10 -bottom-10 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute -left-10 -top-10 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                
+                <div class="relative z-10 max-w-2xl space-y-6">
+                    <div class="inline-flex items-center space-x-2 bg-blue-500/20 border border-blue-500/30 px-3 py-1 rounded-full text-xs font-semibold text-blue-300">
+                        <i class="fa-solid fa-award"></i>
+                        <span>Formação Profissional Certificada</span>
+                    </div>
+                    <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight leading-tight">
+                        Domine a <span class="bg-gradient-to-r from-blue-400 to-amber-400 bg-clip-text text-transparent">Eletricidade Automóvel</span> do Zero ao Avançado
+                    </h1>
+                    <p class="text-slate-300 text-lg sm:text-xl font-normal leading-relaxed">
+                        Aprenda eletrónica veicular através de teoria interativa, circuitos simulados, multímetro virtual e casos reais de oficina.
+                    </p>
+                    <div class="flex flex-wrap gap-4 pt-2">
+                        <button onclick="router.navigate('dashboard')" class="bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white font-bold px-8 py-4 rounded-2xl shadow-xl shadow-blue-600/30 transition-all transform hover:-translate-y-0.5 flex items-center space-x-3 text-base">
+                            <span>COMEÇAR CURSO AGORA</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                        <button onclick="router.navigate('lab')" class="bg-slate-800/80 hover:bg-slate-800 border border-slate-700 text-white font-semibold px-6 py-4 rounded-2xl transition-all flex items-center space-x-2 text-base">
+                            <i class="fa-solid fa-microchip text-amber-400"></i>
+                            <span>Testar Circuitos e Multímetro</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Bar -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="bg-white dark:bg-darkCard p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-center space-x-4">
+                    <div class="w-12 h-12 rounded-xl bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center text-xl font-bold">
+                        <i class="fa-solid fa-layer-group"></i>
+                    </div>
+                    <div>
+                        <div class="text-2xl font-black">9 Níveis</div>
+                        <div class="text-xs text-slate-500 dark:text-slate-400 font-medium">Progressivos</div>
+                    </div>
+                </div>
+                <div class="bg-white dark:bg-darkCard p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-center space-x-4">
+                    <div class="w-12 h-12 rounded-xl bg-amber-50 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 flex items-center justify-center text-xl font-bold">
+                        <i class="fa-solid fa-book-open"></i>
+                    </div>
+                    <div>
+                        <div class="text-2xl font-black">36+ Aulas</div>
+                        <div class="text-xs text-slate-500 dark:text-slate-400 font-medium">Teoria e Prática</div>
+                    </div>
+                </div>
+                <div class="bg-white dark:bg-darkCard p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-center space-x-4">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-xl font-bold">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <div>
+                        <div class="text-2xl font-black">Interativo</div>
+                        <div class="text-xs text-slate-500 dark:text-slate-400 font-medium">Circuitos e Multímetro</div>
+                    </div>
+                </div>
+                <div class="bg-white dark:bg-darkCard p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-center space-x-4">
+                    <div class="w-12 h-12 rounded-xl bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 flex items-center justify-center text-xl font-bold">
+                        <i class="fa-solid fa-wrench"></i>
+                    </div>
+                    <div>
+                        <div class="text-2xl font-black">Oficina Virtual</div>
+                        <div class="text-xs text-slate-500 dark:text-slate-400 font-medium">Casos Reais</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course Syllabus Overview -->
+            <div class="space-y-6">
+                <div class="flex flex-col md:flex-row md:items-end justify-between">
+                    <div>
+                        <h2 class="text-2xl font-bold tracking-tight">Conteúdo Programático do Curso</h2>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">Evolução passo a passo desde os fundamentos até diagnóstico avançado de redes CAN/LIN.</p>
+                    </div>
+                    <button onclick="router.navigate('dashboard')" class="mt-4 md:mt-0 text-blue-600 dark:text-blue-400 font-semibold text-sm hover:underline flex items-center space-x-1">
+                        <span>Ver painel completo</span>
+                        <i class="fa-solid fa-chevron-right text-xs"></i>
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="homeLevelsGrid">
+                    <!-- Dynamic populated by JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 2: DASHBOARD & LEVELS LIST -->
+        <div id="page-dashboard" class="page-view hidden space-y-8">
+            <!-- User Progress Header Banner -->
+            <div class="bg-white dark:bg-darkCard p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="space-y-2 text-center md:text-left">
+                    <div class="inline-flex items-center space-x-2 bg-blue-50 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 px-3 py-1 rounded-full text-xs font-semibold">
+                        <i class="fa-solid fa-user-graduate"></i>
+                        <span>Área do Aluno VoltMaster</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold">O seu Progresso no Curso</h2>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm">Conclua aulas, realize os testes e desbloqueie novos níveis até obter o certificado.</p>
+                </div>
+                
+                <div class="w-full md:w-72 bg-slate-100 dark:bg-slate-800/80 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 space-y-3">
+                    <div class="flex justify-between text-sm font-bold">
+                        <span>Progresso Geral</span>
+                        <span id="globalProgressPercent" class="text-blue-600 dark:text-blue-400">0%</span>
+                    </div>
+                    <div class="w-full bg-slate-200 dark:bg-slate-700 h-3 rounded-full overflow-hidden">
+                        <div id="globalProgressBar" class="bg-gradient-to-r from-blue-600 to-amber-500 h-full w-0 transition-all duration-500 rounded-full"></div>
+                    </div>
+                    <div class="text-xs text-slate-500 dark:text-slate-400 text-center" id="completedCountText">0 de 9 níveis concluídos</div>
+                </div>
+            </div>
+
+            <!-- Certificate Action Box (Hidden until 100%) -->
+            <div id="certificateBanner" class="hidden bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 p-6 rounded-3xl shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="flex items-center space-x-4">
+                    <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-amber-600 text-2xl shadow">
+                        <i class="fa-solid fa-medal animate-bounce"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-black">Parabéns! Curso Concluído!</h3>
+                        <p class="text-sm font-medium opacity-90">Você completou todos os 9 níveis de Eletricidade Automóvel com sucesso.</p>
+                    </div>
+                </div>
+                <button onclick="openCertificateModal()" class="bg-slate-950 text-white px-6 py-3 rounded-xl font-bold text-sm shadow-lg hover:bg-slate-900 transition-all whitespace-nowrap">
+                    <i class="fa-solid fa-certificate mr-2"></i> Ver Certificado
+                </button>
+            </div>
+
+            <!-- Levels List Container -->
+            <div class="space-y-4" id="levelsListContainer">
+                <!-- Populated dynamically -->
+            </div>
+        </div>
+
+        <!-- PAGE 3: LESSON PLAYER & QUIZ VIEW -->
+        <div id="page-lesson" class="page-view hidden space-y-6">
+            <div class="flex items-center justify-between bg-white dark:bg-darkCard p-4 rounded-2xl border border-slate-200 dark:border-slate-800">
+                <button onclick="router.navigate('dashboard')" class="text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 flex items-center space-x-2">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span>Voltar ao Painel</span>
+                </button>
+                <div class="text-sm font-bold text-blue-600 dark:text-blue-400" id="lessonLevelBadge">Nível 1</div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                <!-- Lesson Content Area -->
+                <div class="lg:col-span-3 bg-white dark:bg-darkCard p-6 sm:p-10 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
+                    <div id="lessonContentHeader" class="border-b border-slate-200 dark:border-slate-800 pb-6">
+                        <span class="text-xs uppercase tracking-wider font-extrabold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 px-3 py-1 rounded-full">Aula Teórica & Prática</span>
+                        <h1 id="lessonTitle" class="text-2xl sm:text-3xl font-extrabold mt-3">Título da Aula</h1>
+                    </div>
+
+                    <div id="lessonBody" class="prose dark:prose-invert max-w-none space-y-6 text-slate-700 dark:text-slate-300 leading-relaxed text-base">
+                        <!-- Dynamic lesson HTML content -->
+                    </div>
+
+                    <!-- Quiz Section within Lesson (if any) -->
+                    <div id="lessonQuizContainer" class="hidden mt-8 pt-8 border-t border-slate-200 dark:border-slate-800 space-y-6">
+                        <div class="bg-blue-50 dark:bg-slate-800/60 p-6 rounded-2xl border border-blue-200 dark:border-slate-700">
+                            <h3 class="text-lg font-bold text-blue-900 dark:text-blue-300 flex items-center space-x-2">
+                                <i class="fa-solid fa-circle-question"></i>
+                                <span id="quizTitle">Teste de Verificação do Módulo</span>
+                            </h3>
+                            <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">Responda corretamente para concluir este nível e desbloquear o seguinte.</p>
+                        </div>
+                        <div id="quizQuestionsArea" class="space-y-6">
+                            <!-- Populated dynamically -->
+                        </div>
+                        <div id="quizResultArea" class="hidden p-4 rounded-xl text-center font-bold"></div>
+                        <button id="submitQuizBtn" onclick="submitQuiz()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-blue-600/20 transition-all">
+                            Submeter Respostas do Teste
+                        </button>
+                    </div>
+
+                    <!-- Bottom Nav buttons -->
+                    <div class="flex items-center justify-between pt-6 border-t border-slate-200 dark:border-slate-800">
+                        <button id="prevLessonBtn" onclick="navigateLesson(-1)" class="px-5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 font-semibold text-sm hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors flex items-center space-x-2">
+                            <i class="fa-solid fa-chevron-left"></i>
+                            <span>Aula Anterior</span>
+                        </button>
+                        <button id="nextLessonBtn" onclick="navigateLesson(1)" class="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow-md shadow-blue-600/20 transition-all flex items-center space-x-2">
+                            <span>Próxima Aula</span>
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Lesson Sidebar Index -->
+                <div class="lg:col-span-1 space-y-4">
+                    <div class="bg-white dark:bg-darkCard p-5 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+                        <h3 class="font-bold text-sm uppercase tracking-wider text-slate-400">Módulos do Nível</h3>
+                        <div id="levelLessonListSidebar" class="space-y-2">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 4: VIRTUAL LAB & CIRCUITS -->
+        <div id="page-lab" class="page-view hidden space-y-8">
+            <div class="bg-white dark:bg-darkCard p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-3">
+                <div class="inline-flex items-center space-x-2 bg-amber-50 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 px-3 py-1 rounded-full text-xs font-semibold">
+                    <i class="fa-solid fa-microchip"></i>
+                    <span>Bancada e Circuitos Interativos</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold">Laboratório de Eletricidade & Multímetro Virtual</h1>
+                <p class="text-slate-500 dark:text-slate-400 text-sm">Selecione o modo do multímetro e clique nos pontos de teste dos circuitos interativos para medir Tensão (V), Resistência (Ω) ou Continuidade.</p>
+            </div>
+
+            <!-- Lab Workspace: Circuit on Left, Multimeter on Right -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                
+                <!-- Circuit Selector & Simulation Area (Col 8) -->
+                <div class="lg:col-span-8 space-y-6">
+                    <!-- Circuit Tabs -->
+                    <div class="flex flex-wrap gap-2 bg-white dark:bg-darkCard p-2 rounded-2xl border border-slate-200 dark:border-slate-800">
+                        <button onclick="switchCircuit(1)" id="circTab1" class="circuit-tab flex-1 px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-blue-600 text-white shadow transition-all">
+                            1. Bateria, Interruptor e Lâmpada
+                        </button>
+                        <button onclick="switchCircuit(2)" id="circTab2" class="circuit-tab flex-1 px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 transition-all">
+                            2. Relé e Motor Elétrico
+                        </button>
+                        <button onclick="switchCircuit(3)" id="circTab3" class="circuit-tab flex-1 px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 transition-all">
+                            3. Circuito com Defeito (Diagnóstico)
+                        </button>
+                    </div>
+
+                    <!-- Interactive Circuit Canvas/SVG Card -->
+                    <div class="bg-white dark:bg-darkCard p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6 relative overflow-hidden">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h3 id="circuitTitle" class="text-lg font-bold">Circuito 1: Simples (Bateria → Interruptor → Lâmpada)</h3>
+                                <p id="circuitDesc" class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Clique no interruptor para abrir ou fechar o circuito. Use o multímetro nas pontas de prova para medir.</p>
+                            </div>
+                            <button onclick="resetCircuitFault()" id="resetFaultBtn" class="hidden text-xs bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 font-bold px-3 py-1.5 rounded-xl hover:bg-red-200 transition-colors">
+                                <i class="fa-solid fa-rotate-right mr-1"></i> Reiniciar Defeito
+                            </button>
+                        </div>
+
+                        <!-- Circuit Visual SVG Box -->
+                        <div id="circuitCanvasContainer" class="bg-slate-900 rounded-2xl p-6 relative flex flex-col items-center justify-center min-h-[300px] border border-slate-800">
+                            <!-- Populated dynamically via JS -->
+                        </div>
+
+                        <!-- Circuit Controls / Interaction Bar -->
+                        <div id="circuitControls" class="flex flex-wrap items-center justify-between gap-4 pt-2">
+                            <!-- Dynamic controls -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Virtual Multimeter Panel (Col 4) -->
+                <div class="lg:col-span-4 space-y-6">
+                    <div class="bg-slate-900 text-white p-6 rounded-3xl border-4 border-slate-800 shadow-2xl space-y-6 relative">
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-3 h-3 rounded-full bg-red-500 animate-pulse"></div>
+                                <span class="font-bold text-xs uppercase tracking-wider text-slate-400">Multímetro Digital Pro</span>
+                            </div>
+                            <span class="text-xs font-mono text-amber-400">FLUKE 87V SIM</span>
+                        </div>
+
+                        <!-- Screen Display -->
+                        <div class="bg-slate-950 p-5 rounded-2xl border-2 border-slate-800 text-right space-y-1 shadow-inner">
+                            <div class="flex justify-between items-center text-xs text-slate-500 font-mono">
+                                <span id="multimeterModeLabel">DC VOLTS</span>
+                                <span id="multimeterAutoText" class="text-amber-500 font-bold">AUTO DC</span>
+                            </div>
+                            <div id="multimeterScreen" class="text-4xl font-black font-mono-code tracking-wider text-emerald-400">
+                                0.00 <span class="text-xl" id="multimeterUnit">V</span>
+                            </div>
+                            <div id="multimeterSubText" class="text-xs text-slate-400 font-mono">Selecione uma ponta de prova / modo</div>
+                        </div>
+
+                        <!-- Mode Selector Buttons -->
+                        <div class="grid grid-cols-3 gap-2">
+                            <button onclick="setMultimeterMode('VDC')" id="modeBtnVDC" class="py-2.5 px-2 rounded-xl text-xs font-bold bg-blue-600 text-white shadow transition-all">
+                                V DC
+                            </button>
+                            <button onclick="setMultimeterMode('OHM')" id="modeBtnOHM" class="py-2.5 px-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition-all">
+                                Resistência (Ω)
+                            </button>
+                            <button onclick="setMultimeterMode('CONT')" id="modeBtnCONT" class="py-2.5 px-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition-all">
+                                Continuidade
+                            </button>
+                        </div>
+
+                        <!-- Probes status / instructions -->
+                        <div class="bg-slate-800/60 p-4 rounded-xl text-xs space-y-2 border border-slate-700">
+                            <div class="font-bold text-slate-300 flex items-center space-x-1">
+                                <i class="fa-solid fa-circle-info text-blue-400"></i>
+                                <span>Como medir no Circuito:</span>
+                            </div>
+                            <p class="text-slate-400 leading-relaxed">
+                                Clique nos pontos de teste coloridos (<span class="text-red-400 font-bold">Vermelho</span> e <span class="text-slate-300 font-bold">Preto</span>) que aparecem no circuito interativo ao lado para efetuar as medições.
+                            </p>
+                            <div class="pt-2 flex items-center justify-between text-[11px] font-mono border-t border-slate-700/60">
+                                <span>Ponta Vermelha: <strong id="probeRedState" class="text-red-400">Nenhum</strong></span>
+                                <span>Ponta Preta: <strong id="probeBlackState" class="text-slate-300">Nenhum</strong></span>
+                            </div>
+                            <button onclick="resetProbes()" class="w-full mt-2 bg-slate-700 hover:bg-slate-600 text-white py-1.5 rounded-lg text-xs font-bold transition-all">
+                                Resetar Pontas de Prova
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- PAGE 5: WORKSHOP DIAGNOSTICS (OFICINA VIRTUAL) -->
+        <div id="page-workshop" class="page-view hidden space-y-8">
+            <div class="bg-white dark:bg-darkCard p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-3">
+                <div class="inline-flex items-center space-x-2 bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 px-3 py-1 rounded-full text-xs font-semibold">
+                    <i class="fa-solid fa-wrench"></i>
+                    <span>Oficina Virtual de Diagnóstico</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold">Casos Reais de Avarias Automóveis</h1>
+                <p class="text-slate-500 dark:text-slate-400 text-sm">Selecione um veículo com avaria, ouça a reclamação do cliente, execute os testes com o multímetro e descubra a causa real seguindo a metodologia profissional.</p>
+            </div>
+
+            <!-- Case Selection or Active Case View -->
+            <div id="workshopCasesContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Populated dynamically -->
+            </div>
+
+            <!-- Active Case Solver Modal / View -->
+            <div id="workshopActiveCase" class="hidden bg-white dark:bg-darkCard p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
+                <!-- Populated when case is opened -->
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white dark:bg-darkCard border-t border-slate-200 dark:border-slate-800 mt-12 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-slate-500 dark:text-slate-400">
+            <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-bolt text-blue-600"></i>
+                <span class="font-bold text-slate-700 dark:text-slate-200">VoltMaster Academy</span>
+                <span>&copy; 2026 — Eletricidade e Diagnóstico Automóvel</span>
+            </div>
+            <div class="flex space-x-6">
+                <span class="cursor-pointer hover:text-blue-600 transition-colors" onclick="router.navigate('home')">Início</span>
+                <span class="cursor-pointer hover:text-blue-600 transition-colors" onclick="router.navigate('dashboard')">Painel</span>
+                <span class="cursor-pointer hover:text-blue-600 transition-colors" onclick="router.navigate('lab')">Bancada</span>
+                <span class="cursor-pointer hover:text-blue-600 transition-colors" onclick="router.navigate('workshop')">Oficina</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Certificate Modal -->
+    <div id="certificateModal" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-900 text-slate-900 dark:text-white max-w-2xl w-full p-8 rounded-3xl shadow-2xl border-4 border-amber-500/50 space-y-6 relative overflow-hidden">
+            <div class="absolute -right-10 -top-10 w-40 h-40 bg-amber-500/10 rounded-full blur-2xl"></div>
+            
+            <div class="text-center space-y-2 border-b border-slate-200 dark:border-slate-800 pb-6">
+                <div class="inline-flex w-16 h-16 rounded-2xl bg-amber-500 text-slate-950 items-center justify-center text-3xl shadow-lg mb-2">
+                    <i class="fa-solid fa-award"></i>
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-black uppercase tracking-wider text-amber-500">Certificado de Conclusão</h2>
+                <p class="text-xs text-slate-500 uppercase tracking-widest">VoltMaster Professional Automotive Electricity</p>
+            </div>
+
+            <div class="text-center space-y-4 py-4">
+                <p class="text-sm text-slate-600 dark:text-slate-400">Certificamos que o aluno concluiu com êxito todos os 9 níveis do curso de:</p>
+                <h3 class="text-xl sm:text-2xl font-extrabold text-blue-600 dark:text-blue-400">Eletricidade e Diagnóstico Automóvel</h3>
+                <div class="text-xs text-slate-500 pt-2 font-mono">
+                    ID de Conclusão: <span id="certId" class="font-bold text-amber-500">VM-2026-9984</span> | Estado: Aprovado com 100%
+                </div>
+            </div>
+
+            <div class="flex items-center justify-end space-x-3 pt-4 border-t border-slate-200 dark:border-slate-800">
+                <button onclick="closeCertificateModal()" class="px-5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 font-semibold text-sm hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                    Fechar
+                </button>
+                <button onclick="window.print()" class="px-6 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-sm shadow-lg transition-all flex items-center space-x-2">
+                    <i class="fa-solid fa-print"></i>
+                    <span>Imprimir Certificado</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application JavaScript Logic -->
+    <script>
+        /* -------------------------------------------------------------------------- */
+        /* COURSE DATABASE & 9 LEVELS STRUCTURE                                       */
+        /* -------------------------------------------------------------------------- */
+        const COURSE_DATA = [
+            {
+                id: 1,
+                title: "Nível 1 — Introdução à Eletricidade",
+                summary: "Conceitos fundamentais: elétrons, corrente, tensão, resistência, potência e Lei de Ohm.",
+                icon: "fa-bolt",
+                lessons: [
+                    {
+                        id: 101,
+                        title: "O que é Eletricidade e Elétrons?",
+                        content: `
+                            <p>A eletricidade é o fluxo de partículas carregadas, especificamente os <strong>elétrons</strong>, através de um condutor (como um fio de cobre). No automóvel, a bateria armazena energia química e a transforma em energia elétrica para alimentar todos os sistemas.</p>
+                            <h4 class="font-bold text-lg mt-4 text-blue-600 dark:text-blue-400">Conceitos Chave:</h4>
+                            <ul class="list-disc pl-5 space-y-2">
+                                <li><strong>Corrente Elétrica (I):</strong> É o fluxo ordenado de elétrons. Medida em <strong>Ampères (A)</strong>.</li>
+                                <li><strong>Tensão / Voltagem (V ou U):</strong> É a "pressão" elétrica que empurra os elétrons. Medida em <strong>Volts (V)</strong> (num carro típico, a bateria fornece aprox. 12.6V).</li>
+                                <li><strong>Resistência (R):</strong> A oposição à passagem dos elétrons. Medida em <strong>Ohms (Ω)</strong>.</li>
+                                <li><strong>Potência (P):</strong> O trabalho realizado pela eletricidade. Medida em <strong>Watts (W)</strong>.</li>
+                            </ul>
+                        `,
+                        quiz: {
+                            question: "Qual é a unidade de medida da Tensão (Voltagem) elétrica num circuito?",
+                            options: ["Ampère (A)", "Volt (V)", "Ohm (Ω)", "Watt (W)"],
+                            correct: 1,
+                            explanation: "A tensão é a força eletromotriz medida em Volts (V)."
+                        }
+                    },
+                    {
+                        id: 102,
+                        title: "Lei de Ohm e Fórmula de Potência",
+                        content: `
+                            <p>A <strong>Lei de Ohm</strong> é a base de todo o diagnóstico elétrico. Ela estabelece a relação matemática entre Tensão (V), Corrente (I) e Resistência (R).</p>
+                            <div class="bg-blue-50 dark:bg-slate-800 p-4 rounded-2xl border border-blue-200 dark:border-slate-700 font-mono text-center text-lg font-bold text-blue-600 dark:text-blue-400 my-4">
+                                V = R × I &nbsp;&nbsp;|&nbsp;&nbsp; I = V / R &nbsp;&nbsp;|&nbsp;&nbsp; R = V / I
+                            </div>
+                            <p>A fórmula de potência relaciona a potência em Watts com a tensão e a corrente:</p>
+                            <div class="bg-amber-50 dark:bg-slate-800 p-4 rounded-2xl border border-amber-200 dark:border-slate-700 font-mono text-center text-lg font-bold text-amber-600 dark:text-amber-400 my-4">
+                                P = V × I
+                            </div>
+                        `,
+                        quiz: {
+                            question: "Se um farol consome 5A de corrente com uma tensão de 12V, qual é a potência dissipada?",
+                            options: ["12 Watts", "60 Watts", "2.4 Watts", "120 Watts"],
+                            correct: 1,
+                            explanation: "P = V × I -> 12V × 5A = 60 Watts."
+                        }
+                    },
+                    {
+                        id: 103,
+                        title: "Circuitos Série, Paralelo e Curto-Circuito",
+                        content: `
+                            <p>Nos automóveis, os componentes podem estar ligados de diferentes formas:</p>
+                            <ul class="list-disc pl-5 space-y-2">
+                                <li><strong>Circuito Série:</strong> Os componentes estão ligados um após o outro no mesmo caminho. Se um falha (ex: lâmpada fundida), todos se apagam.</li>
+                                <li><strong>Circuito Paralelo:</strong> Cada componente tem seu próprio caminho para a corrente. Se um falha, os outros continuam a funcionar (padrão nos carros modernos).</li>
+                                <li><strong>Curto-Circuito:</strong> Ocorre quando o positivo entra em contato direto com o negativo/massa sem resistência intermédia, gerando corrente excessiva e queimando o fusível.</li>
+                            </ul>
+                        `,
+                        quiz: {
+                            question: "O que acontece num circuito em paralelo se uma lâmpada fundir?",
+                            options: ["Todas as outras lâmpadas apagam-se", "As outras lâmpadas continuam acesas", "A bateria descarrega instantaneamente", "O voltímetro marca zero"],
+                            correct: 1,
+                            explanation: "Num circuito paralelo, cada carga tem o seu próprio ramal independente."
+                        }
+                    }
+                ]
+            },
+            {
+                id: 2,
+                title: "Nível 2 — Componentes Elétricos Automotivos",
+                summary: "Bateria, fusíveis, relés, interruptores, alternador, motor de arranque e sensores.",
+                icon: "fa-car-battery",
+                lessons: [
+                    {
+                        id: 201,
+                        title: "Fusíveis, Relés e Interruptores",
+                        content: `
+                            <p>Componentes vitais para a segurança e controlo dos circuitos automóveis:</p>
+                            <ul class="list-disc pl-5 space-y-2">
+                                <li><strong>Fusíveis:</strong> Elementos de proteção sacrificiais que derretem se a corrente ultrapassar o limite, evitando incêndios.</li>
+                                <li><strong>Relés:</strong> Interruptores eletromagnéticos que permitem que uma corrente fraca (ex: comando no painel) acione uma corrente muito alta (ex: ventoinha do radiador ou faróis).</li>
+                                <li><strong>Interruptores:</strong> Dispositivos manuais ou automáticos para abrir ou fechar o circuito.</li>
+                            </ul>
+                        `,
+                        quiz: {
+                            question: "Qual é a principal função de um relé num veículo?",
+                            options: ["Gerar eletricidade para a bateria", "Permitir que um sinal pequeno controle uma corrente alta com segurança", "Medir a resistência dos fios", "Aumentar a voltagem do alternador"],
+                            correct: 1,
+                            explanation: "O relé protege os interruptores do painel ao suportar a alta corrente de carga nos seus contactos de potência."
+                        }
+                    },
+                    {
+                        id: 202,
+                        title: "Alternador e Motor de Arranque",
+                        content: `
+                            <p>O <strong>Motor de Arranque</strong> é um motor elétrico de alta potência que roda o motor térmico para dar início ao funcionamento. O <strong>Alternador</strong> converte energia mecânica em elétrica para recarregar a bateria e alimentar todos os sistemas enquanto o motor trabalha.</p>
+                        `,
+                        quiz: {
+                            question: "Qual componente é responsável por recarregar a bateria enquanto o motor do carro está ligado?",
+                            options: ["Motor de Arranque", "Alternador", "Bobina de Ignição", "Relé principal"],
+                            correct: 1,
+                            explanation: "O alternador gera corrente alternada (retificada para contínua) mantendo a bateria carregada e alimentando o veículo."
+                        }
+                    }
+                ]
+            },
+            {
+                id: 3,
+                title: "Nível 3 — Ferramentas de Diagnóstico e Multímetro",
+                summary: "Como usar o multímetro, lâmpada de teste e testar quedas de tensão.",
+                icon: "fa-gauge",
+                lessons: [
+                    {
+                        id: 301,
+                        title: "Como Utilizar o Multímetro no Automóvel",
+                        content: `
+                            <p>O multímetro é a ferramenta indispensável do eletricista automóvel. Principais funções:</p>
+                            <ul class="list-disc pl-5 space-y-2">
+                                <li><strong>Tensão DC (V):</strong> Para medir a voltagem da bateria, sensores e alimentação. A ponta vermelha vai ao positivo e a preta à massa.</li>
+                                <li><strong>Resistência (Ω):</strong> Para verificar se um fio está partido ou a resistência de um sensor (com o circuito DESLIGADO).</li>
+                                <li><strong>Continuidade:</strong> Emite um sinal sonoro se houver caminho livre para a corrente.</li>
+                            </ul>
+                        `,
+                        quiz: {
+                            question: "Para medir a resistência de um componente com o multímetro, o circuito deve estar:",
+                            options: ["Ligado e a trabalhar", "Desligado (sem alimentação)", "Com o motor a 3000 RPM", "Ligado à tomada de 220V"],
+                            correct: 1,
+                            explanation: "Medir resistência com o circuito ligado pode danificar o multímetro."
+                        }
+                    }
+                ]
+            },
+            {
+                id: 4,
+                title: "Nível 4 — Circuitos Automóveis Básicos",
+                summary: "Iluminação, faróis, piscas, buzina, vidros elétricos e fecho central.",
+                icon: "fa-lightbulb",
+                lessons: [
+                    {
+                        id: 401,
+                        title: "Circuitos de Iluminação e Sinalização",
+                        content: `
+                            <p>Os faróis e luzes de presença são alimentados através de fusíveis dedicados e comandados por relés ou módulos de carroçaria (BCM). Analisaremos o fluxo da corrente desde o interruptor até à lâmpada.</p>
+                        `,
+                        quiz: {
+                            question: "Num circuito de faróis, se ambos os médios deixam de funcionar e os fusíveis estão bons, o que deve verificar a seguir?",
+                            options: ["O óleo do motor", "O comutador de luzes (interruptor) e o relé correspondente", "A pressão dos pneus", "A centralina de travões ABS"],
+                            correct: 1,
+                            explanation: "O comutador de luzes ou o relé de faróis são os pontos comuns de falha quando ambos os lados falham simultaneamente."
+                        }
+                    }
+                ]
+            },
+            {
+                id: 5,
+                title: "Nível 5 — Bateria, Arranque e Carregamento",
+                summary: "Diagnóstico completo da bateria, teste de carga e queda de tensão no arranque.",
+                icon: "fa-car",
+                lessons: [
+                    {
+                        id: 501,
+                        title: "Diagnóstico do Sistema de Carga e Arranque",
+                        content: `
+                            <p>Quando um carro não pega, verificamos primeiro a tensão de repouso da bateria (deve estar próxima de 12.6V). Durante o arranque, a tensão não deve cair abaixo de 9.5V. Se cair excessivamente, a bateria está descarregada ou danificada.</p>
+                        `,
+                        quiz: {
+                            question: "Com o motor a trabalhar, qual deve ser a tensão típica fornecida pelo alternador nos terminais da bateria?",
+                            options: ["10.5V a 11.2V", "13.8V a 14.5V", "24.0V", "6.0V"],
+                            correct: 1,
+                            explanation: "Um alternador saudável mantém a tensão de carga entre 13.8V e 14.5V."
+                        }
+                    }
+                ]
+            },
+            {
+                id: 6,
+                title: "Nível 6 — Sensores e Atuadores",
+                summary: "Sensores MAP, MAF, TPS, Temperatura, Rotação e atuadores como injetores e bobinas.",
+                icon: "fa-microchip",
+                lessons: [
+                    {
+                        id: 601,
+                        title: "Funcionamento e Teste de Sensores",
+                        content: `
+                            <p>Os sensores informam a ECU sobre as condições do motor. O sensor de temperatura (NTC) varia a resistência com o calor; o sensor de rotação (CKP) gera um sinal eletromagnético de pulso.</p>
+                        `,
+                        quiz: {
+                            question: "O que é um sensor NTC (muito comum em sensores de temperatura)?",
+                            options: ["Um sensor cuja resistência aumenta com o aumento da temperatura", "Um sensor cuja resistência diminui com o aumento da temperatura", "Um sensor que gera 12V fixos", "Um atuador de injeção"],
+                            correct: 1,
+                            explanation: "NTC (Negative Temperature Coefficient) significa Coeficiente de Temperatura Negativo (resistência desce com o calor)."
+                        }
+                    }
+                ]
+            },
+            {
+                id: 7,
+                title: "Nível 7 — Sistema de Injeção Eletrónica",
+                summary: "Alimentação da ECU, massas, relé principal, injetores e sistema de ignição.",
+                icon: "fa-gauge-high",
+                lessons: [
+                    {
+                        id: 701,
+                        title: "Arquitetura da Injeção Eletrónica e ECU",
+                        content: `
+                            <p>A ECU (Unidade de Controlo do Motor) é o "cérebro" do veículo. Ela precisa de alimentação positiva permanente, pós-contacto, excelentes massas e sinais precisos dos sensores para comandar os injetores e as bobinas.</p>
+                        `,
+                        quiz: {
+                            question: "Uma falha de massa (terra) na ECU pode causar que tipo de comportamento?",
+                            options: ["Apenas apagar o rádio", "Falhas intermitentes, códigos de erro fantasma e o carro não pegar", "Aceleração automática para 8000 RPM", "Carregamento excessivo da bateria"],
+                            correct: 1,
+                            explanation: "Massas deficientes na ECU geram quedas de tensão e correntes de retorno que baralham os sinais eletrónicos."
+                        }
+                    }
+                ]
+            },
+            {
+                id: 8,
+                title: "Nível 8 — Metodologia Profissional de Diagnóstico",
+                summary: "Passo a passo para solucionar avarias complexas sem trocar peças à sorte.",
+                icon: "fa-stethoscope",
+                lessons: [
+                    {
+                        id: 801,
+                        title: "O Método de 12 Passos para Diagnóstico",
+                        content: `
+                            <p>O bom eletricista não adivinha: investiga. Passos: 1. Ouvir o cliente; 2. Confirmar o sintoma; 3. Inspeção visual; 4. Testar bateria e fusíveis; 5. Verificar alimentações e massas; 6. Usar scanner OBD; 7. Testar componentes isolados; 8. Encontrar a causa raiz; 9. Reparar; 10. Testar novamente.</p>
+                        `,
+                        quiz: {
+                            question: "Qual deve ser a primeira atitude do técnico perante uma avaria elétrica num carro?",
+                            options: ["Substituir imediatamente a ECU", "Ouvir atentamente a reclamação do cliente e confirmar o sintoma", "Desligar a bateria por 3 dias", "Cortar o cablagem principal"],
+                            correct: 1,
+                            explanation: "Ouvir o cliente e reproduzir o sintoma poupa horas de diagnóstico perdido."
+                        }
+                    }
+                ]
+            },
+            {
+                id: 9,
+                title: "Nível 9 — Eletrónica Automóvel Avançada e Redes CAN",
+                summary: "Sinais PWM, Redes CAN Bus, LIN Bus, osciloscópio e diagnóstico de módulos (BCM, ABS).",
+                icon: "fa-network-wired",
+                lessons: [
+                    {
+                        id: 901,
+                        title: "Redes de Comunicação CAN Bus e Osciloscópio",
+                        content: `
+                            <p>Os carros modernos utilizam redes de dados (CAN High e CAN Low) onde os módulos conversam entre si por pacotes digitais de dados. O osciloscópio é a ferramenta ideal para visualizar estes sinais em forma de onda.</p>
+                        `,
+                        quiz: {
+                            question: "O que significa a sigla CAN numa rede de comunicação automóvel?",
+                            options: ["Controller Area Network", "Car Audio Node", "Current Automotive Network", "Computer Automatic Navigation"],
+                            correct: 0,
+                            explanation: "CAN significa Controller Area Network, o protocolo padrão para multiplexagem veicular."
+                        }
+                    }
+                ]
+            }
+        ];
+
+        /* -------------------------------------------------------------------------- */
+        /* APPLICATION STATE & LOCALSTORAGE                                           */
+        /* -------------------------------------------------------------------------- */
+        let appState = {
+            currentTheme: 'dark',
+            completedLevels: [], // Array of level IDs completed
+            currentLevelId: 1,
+            currentLessonId: 101,
+            quizAnswers: {},
+            multimeter: {
+                mode: 'VDC', // VDC, OHM, CONT
+                probeRed: null, // connected point ID
+                probeBlack: null,
+                reading: 0.00,
+                unit: 'V'
+            },
+            activeCircuit: 1,
+            circuitState: {
+                switchClosed: true,
+                faultActive: true, // For circuit 3
+                relayTriggered: false
+            },
+            workshopCases: [
+                {
+                    id: 1,
+                    title: "Carro não pega no arranque",
+                    vehicle: "Volkswagen Golf 1.9 TDI",
+                    symptom: "Ao rodar a chave, o motor de arranque não faz nenhum barulho ou roda muito devagar. Luzes do painel tremem.",
+                    stepsDone: [],
+                    solved: false,
+                    correctAction: "bateria_fraca"
+                },
+                {
+                    id: 2,
+                    title: "Farol médio direito não acende",
+                    vehicle: "Renault Megane II",
+                    symptom: "Lâmpada nova colocada mas continua apagada. O fusível correspondente no compartimento motor está fundido.",
+                    stepsDone: [],
+                    solved: false,
+                    correctAction: "fusivel_curto"
+                },
+                {
+                    id: 3,
+                    title: "Ventoinha do radiador não liga",
+                    vehicle: "Peugeot 307",
+                    symptom: "Motor aquece no trânsito e a ventoinha do radiador nunca disparou. Relé e fusíveis parecem intactos.",
+                    stepsDone: [],
+                    solved: false,
+                    correctAction: "sensor_temperatura"
+                }
+            ]
+        };
+
+        function saveState() {
+            localStorage.setItem('voltmaster_state', JSON.stringify(appState));
+        }
+
+        function loadState() {
+            const saved = localStorage.getItem('voltmaster_state');
+            if (saved) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    appState = { ...appState, ...parsed };
+                } catch (e) {
+                    console.error("Erro ao carregar estado", e);
+                }
+            }
+        }
+
+        /* -------------------------------------------------------------------------- */
+        /* ROUTER & NAVIGATION                                                        */
+        /* -------------------------------------------------------------------------- */
+        const router = {
+            navigate: function(pageName, param) {
+                document.querySelectorAll('.page-view').forEach(p => p.classList.add('hidden'));
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('text-blue-600', 'dark:text-blue-400', 'font-bold'));
+                
+                const target = document.getElementById(`page-${pageName}`);
+                if (target) target.classList.remove('hidden');
+
+                const navBtn = document.querySelector(`[data-page="${pageName}"]`);
+                if (navBtn) navBtn.classList.add('text-blue-600', 'dark:text-blue-400', 'font-bold');
+
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+
+                if (pageName === 'home') renderHome();
+                if (pageName === 'dashboard') renderDashboard();
+                if (pageName === 'lesson') renderLesson(param);
+                if (pageName === 'lab') initLabCircuit();
+                if (pageName === 'workshop') renderWorkshop();
+            }
+        };
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const icon = document.getElementById('themeIcon');
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                appState.currentTheme = 'light';
+                icon.className = 'fa-solid fa-sun text-lg text-amber-500';
+            } else {
+                html.classList.add('dark');
+                appState.currentTheme = 'dark';
+                icon.className = 'fa-solid fa-moon text-lg text-slate-300';
+            }
+            saveState();
+        }
+
+        /* -------------------------------------------------------------------------- */
+        /* RENDERING VIEWS                                                            */
+        /* -------------------------------------------------------------------------- */
+        function renderHome() {
+            const grid = document.getElementById('homeLevelsGrid');
+            grid.innerHTML = COURSE_DATA.slice(0, 3).map(level => `
+                <div class="bg-white dark:bg-darkCard p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4 hover:border-blue-500 transition-all cursor-pointer" onclick="openLevel(${level.id})">
+                    <div class="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center text-xl font-bold">
+                        <i class="fa-solid ${level.icon}"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg">${level.title}</h3>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">${level.summary}</p>
+                    </div>
+                    <div class="text-xs font-bold text-blue-600 dark:text-blue-400 flex items-center space-x-1 pt-2">
+                        <span>${level.lessons.length} Aulas disponíveis</span>
+                        <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderDashboard() {
+            const container = document.getElementById('levelsListContainer');
+            const totalLevels = COURSE_DATA.length;
+            const completedCount = appState.completedLevels.length;
+            const percent = Math.round((completedCount / totalLevels) * 100);
+
+            document.getElementById('globalProgressPercent').innerText = `${percent}%`;
+            document.getElementById('globalProgressBar').style.width = `${percent}%`;
+            document.getElementById('completedCountText').innerText = `${completedCount} de ${totalLevels} níveis concluídos`;
+
+            if (completedCount >= totalLevels) {
+                document.getElementById('certificateBanner').classList.remove('hidden');
+            } else {
+                document.getElementById('certificateBanner').classList.add('hidden');
+            }
+
+            container.innerHTML = COURSE_DATA.map((lvl, index) => {
+                const isCompleted = appState.completedLevels.includes(lvl.id);
+                // Level 1 is always unlocked. Others unlocked if previous is completed or user reached it
+                const isUnlocked = lvl.id === 1 || appState.completedLevels.includes(lvl.id - 1) || isCompleted;
+                
+                let badgeHTML = '';
+                let borderClass = 'border-slate-200 dark:border-slate-800';
+                let bgClass = 'bg-white dark:bg-darkCard';
+
+                if (isCompleted) {
+                    badgeHTML = '<span class="inline-flex items-center space-x-1 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 px-3 py-1 rounded-full text-xs font-bold"><i class="fa-solid fa-check"></i><span>Concluído</span></span>';
+                    borderClass = 'border-emerald-500/40 dark:border-emerald-500/30';
+                } else if (isUnlocked) {
+                    badgeHTML = '<span class="inline-flex items-center space-x-1 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 px-3 py-1 rounded-full text-xs font-bold"><i class="fa-solid fa-play"></i><span>Disponível</span></span>';
+                    borderClass = 'border-blue-500/40';
+                } else {
+                    badgeHTML = '<span class="inline-flex items-center space-x-1 bg-slate-100 dark:bg-slate-800 text-slate-400 px-3 py-1 rounded-full text-xs font-bold"><i class="fa-solid fa-lock"></i><span>Bloqueado</span></span>';
+                    bgClass = 'bg-slate-50 dark:bg-slate-900/50 opacity-70';
+                }
+
+                return `
+                    <div class="${bgClass} p-6 rounded-3xl border ${borderClass} shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4 transition-all">
+                        <div class="flex items-start space-x-4">
+                            <div class="w-14 h-14 rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center justify-center text-2xl font-bold flex-shrink-0">
+                                <i class="fa-solid ${lvl.icon}"></i>
+                            </div>
+                            <div class="space-y-1">
+                                <div class="flex items-center space-x-3">
+                                    <span class="text-xs font-mono font-bold text-slate-400">NÍVEL ${lvl.id}</span>
+                                    ${badgeHTML}
+                                </div>
+                                <h3 class="text-lg font-bold">${lvl.title}</h3>
+                                <p class="text-xs text-slate-500 dark:text-slate-400">${lvl.summary}</p>
+                            </div>
+                        </div>
+                        <div>
+                            ${isUnlocked ? `
+                                <button onclick="openLevel(${lvl.id})" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-5 py-2.5 rounded-xl text-xs shadow-md shadow-blue-600/20 transition-all flex items-center space-x-2">
+                                    <span>${isCompleted ? 'Rever Aulas' : 'Estudar Nível'}</span>
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                            ` : `
+                                <button disabled class="bg-slate-200 dark:bg-slate-800 text-slate-400 font-bold px-5 py-2.5 rounded-xl text-xs cursor-not-allowed">
+                                    Conclua o Nível Anterior
+                                </button>
+                            `}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function openLevel(levelId) {
+            const level = COURSE_DATA.find(l => l.id === levelId);
+            if (!level) return;
+            appState.currentLevelId = levelId;
+            appState.currentLessonId = level.lessons[0].id;
+            router.navigate('lesson', appState.currentLessonId);
+        }
+
+        function renderLesson(lessonId) {
+            if (lessonId) appState.currentLessonId = parseInt(lessonId);
+            const level = COURSE_DATA.find(l => l.id === appState.currentLevelId);
+            if (!level) return;
+
+            const lesson = level.lessons.find(l => l.id === appState.currentLessonId) || level.lessons[0];
+
+            document.getElementById('lessonLevelBadge').innerText = level.title;
+            document.getElementById('lessonTitle').innerText = lesson.title;
+            document.getElementById('lessonBody').innerHTML = lesson.content;
+
+            // Render sidebar lesson list
+            const sidebar = document.getElementById('levelLessonListSidebar');
+            sidebar.innerHTML = level.lessons.map(ls => `
+                <div onclick="router.navigate('lesson', ${ls.id})" class="p-3 rounded-xl text-xs font-semibold cursor-pointer transition-colors ${ls.id === lesson.id ? 'bg-blue-600 text-white shadow' : 'bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700'} flex items-center justify-between">
+                    <span>${ls.title}</span>
+                    <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                </div>
+            `).join('');
+
+            // Quiz rendering if lesson has quiz
+            const quizContainer = document.getElementById('lessonQuizContainer');
+            if (lesson.quiz) {
+                quizContainer.classList.remove('hidden');
+                document.getElementById('quizQuestionsArea').innerHTML = `
+                    <div class="space-y-3">
+                        <p class="font-bold text-sm">${lesson.quiz.question}</p>
+                        <div class="space-y-2">
+                            ${lesson.quiz.options.map((opt, idx) => `
+                                <label class="flex items-center space-x-3 p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 cursor-pointer hover:border-blue-500 transition-all">
+                                    <input type="radio" name="quizOpt" value="${idx}" class="text-blue-600 focus:ring-blue-500">
+                                    <span class="text-xs sm:text-sm font-medium">${opt}</span>
+                                </label>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                document.getElementById('quizResultArea').classList.add('hidden');
+                document.getElementById('submitQuizBtn').classList.remove('hidden');
+            } else {
+                quizContainer.classList.add('hidden');
+            }
+        }
+
+        function navigateLesson(direction) {
+            const level = COURSE_DATA.find(l => l.id === appState.currentLevelId);
+            if (!level) return;
+            const currentIndex = level.lessons.findIndex(l => l.id === appState.currentLessonId);
+            const nextIndex = currentIndex + direction;
+
+            if (nextIndex >= 0 && nextIndex < level.lessons.length) {
+                router.navigate('lesson', level.lessons[nextIndex].id);
+            } else if (direction > 0) {
+                // Completed all lessons in level, mark level as completed
+                if (!appState.completedLevels.includes(level.id)) {
+                    appState.completedLevels.push(level.id);
+                    saveState();
+                }
+                router.navigate('dashboard');
+            }
+        }
+
+        function submitQuiz() {
+            const level = COURSE_DATA.find(l => l.id === appState.currentLevelId);
+            const lesson = level.lessons.find(l => l.id === appState.currentLessonId);
+            const selected = document.querySelector('input[name="quizOpt"]:checked');
+
+            const resultArea = document.getElementById('quizResultArea');
+            resultArea.classList.remove('hidden');
+
+            if (!selected) {
+                resultArea.className = "p-4 rounded-xl text-center font-bold bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400";
+                resultArea.innerText = "Por favor, selecione uma resposta.";
+                return;
+            }
+
+            const answerIdx = parseInt(selected.value);
+            if (answerIdx === lesson.quiz.correct) {
+                resultArea.className = "p-4 rounded-xl text-center font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400";
+                resultArea.innerHTML = `<i class="fa-solid fa-circle-check mr-2"></i> Resposta Correta! ${lesson.quiz.explanation}`;
+                
+                // Mark level completed if last lesson
+                if (!appState.completedLevels.includes(level.id)) {
+                    appState.completedLevels.push(level.id);
+                    saveState();
+                }
+            } else {
+                resultArea.className = "p-4 rounded-xl text-center font-bold bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400";
+                resultArea.innerHTML = `<i class="fa-solid fa-circle-xmark mr-2"></i> Resposta Incorreta. Tente novamente. (${lesson.quiz.explanation})`;
+            }
+        }
+
+        function openCertificateModal() {
+            document.getElementById('certificateModal').classList.remove('hidden');
+        }
+        function closeCertificateModal() {
+            document.getElementById('certificateModal').classList.add('hidden');
+        }
+
+        /* -------------------------------------------------------------------------- */
+        /* VIRTUAL LAB & CIRCUITS SIMULATION                                          */
+        /* -------------------------------------------------------------------------- */
+        function switchCircuit(num) {
+            appState.activeCircuit = num;
+            document.querySelectorAll('.circuit-tab').forEach((btn, idx) => {
+                if (idx + 1 === num) {
+                    btn.className = "circuit-tab flex-1 px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-blue-600 text-white shadow transition-all";
+                } else {
+                    btn.className = "circuit-tab flex-1 px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 transition-all";
+                }
+            });
+
+            const resetBtn = document.getElementById('resetFaultBtn');
+            if (num === 3) resetBtn.classList.remove('hidden');
+            else resetBtn.classList.add('hidden');
+
+            initLabCircuit();
+        }
+
+        function initLabCircuit() {
+            const container = document.getElementById('circuitCanvasContainer');
+            const controls = document.getElementById('circuitControls');
+            const title = document.getElementById('circuitTitle');
+            const desc = document.getElementById('circuitDesc');
+
+            resetProbes();
+
+            if (appState.activeCircuit === 1) {
+                title.innerText = "Circuito 1: Bateria → Interruptor → Lâmpada";
+                desc.innerText = "Clique no interruptor para abrir ou fechar. Use as pontas do multímetro nos pontos de teste (P1 e P2).";
+                
+                const isOn = appState.circuitState.switchClosed;
+                container.innerHTML = `
+                    <div class="flex flex-col items-center justify-center space-y-6 w-full py-4">
+                        <div class="flex items-center space-x-12">
+                            <!-- Battery -->
+                            <div onclick="setProbe('P_BAT', 'Bateria (+)')" class="cursor-pointer bg-slate-800 border-2 border-red-500 p-4 rounded-2xl text-center shadow-lg hover:scale-105 transition-transform">
+                                <i class="fa-solid fa-car-battery text-3xl text-red-500"></i>
+                                <div class="text-xs font-bold mt-1 text-white">Bateria (12.6V)</div>
+                                <div class="text-[10px] text-red-400 font-mono">[ Ponto 1 ]</div>
+                            </div>
+
+                            <div class="w-12 h-1 bg-slate-600"></div>
+
+                            <!-- Switch -->
+                            <div onclick="toggleCircuitSwitch()" class="cursor-pointer bg-slate-800 border-2 ${isOn ? 'border-emerald-500' : 'border-amber-500'} p-4 rounded-2xl text-center shadow-lg hover:scale-105 transition-transform">
+                                <i class="fa-solid fa-toggle-${isOn ? 'on text-emerald-500' : 'off text-amber-500'} text-3xl"></i>
+                                <div class="text-xs font-bold mt-1 text-white">Interruptor (${isOn ? 'Fechado' : 'Aberto'})</div>
+                                <div class="text-[10px] text-slate-400 font-mono">[ Clique para ligar ]</div>
+                            </div>
+
+                            <div class="w-12 h-1 bg-slate-600"></div>
+
+                            <!-- Lamp -->
+                            <div onclick="setProbe('P_LAMP', 'Saída Lâmpada')" class="cursor-pointer bg-slate-800 border-2 ${isOn ? 'border-emerald-500' : 'border-slate-600'} p-4 rounded-2xl text-center shadow-lg hover:scale-105 transition-transform">
+                                <i class="fa-solid fa-lightbulb text-3xl ${isOn ? 'text-amber-400 animate-pulse' : 'text-slate-600'}"></i>
+                                <div class="text-xs font-bold mt-1 text-white">Lâmpada 12V</div>
+                                <div class="text-[10px] text-emerald-400 font-mono">[ Ponto 2 ]</div>
+                            </div>
+                        </div>
+                        <div class="text-xs text-slate-400 bg-slate-950 px-4 py-2 rounded-xl border border-slate-800">
+                            Estado atual do fluxo de corrente: <strong class="${isOn ? 'text-emerald-400' : 'text-amber-400'}">${isOn ? 'CORRENTE CIRCULANDO (Lâmpada Acesa)' : 'CIRCUITO ABERTO (Sem Corrente)'}</strong>
+                        </div>
+                    </div>
+                `;
+                controls.innerHTML = `
+                    <button onclick="toggleCircuitSwitch()" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl font-bold text-xs shadow">
+                        Alternar Interruptor (${isOn ? 'Abrir' : 'Fechar'})
+                    </button>
+                    <span class="text-xs text-slate-400">Dica: Meça V DC entre o Ponto 1 e a Massa.</span>
+                `;
+            } else if (appState.activeCircuit === 2) {
+                title.innerText = "Circuito 2: Relé e Motor Elétrico";
+                desc.innerText = "Acione o relé para alimentar o motor elétrico de alta potência.";
+
+                const triggered = appState.circuitState.relayTriggered;
+                container.innerHTML = `
+                    <div class="flex flex-col items-center justify-center space-y-6 w-full py-4">
+                        <div class="flex items-center space-x-8">
+                            <div onclick="setProbe('P_RELAY_IN', 'Bateria Relé')" class="cursor-pointer bg-slate-800 border-2 border-red-500 p-4 rounded-2xl text-center shadow-lg hover:scale-105 transition-transform">
+                                <i class="fa-solid fa-bolt text-3xl text-red-500"></i>
+                                <div class="text-xs font-bold mt-1 text-white">Alimentação 30</div>
+                                <div class="text-[10px] text-red-400 font-mono">[ 12.6V ]</div>
+                            </div>
+                            <div class="w-8 h-1 bg-slate-600"></div>
+                            <div onclick="toggleRelé()" class="cursor-pointer bg-slate-800 border-2 ${triggered ? 'border-emerald-500' : 'border-slate-600'} p-4 rounded-2xl text-center shadow-lg hover:scale-105 transition-transform">
+                                <i class="fa-solid fa-microchip text-3xl ${triggered ? 'text-emerald-400' : 'text-slate-500'}"></i>
+                                <div class="text-xs font-bold mt-1 text-white">Relé Automotivo</div>
+                                <div class="text-[10px] text-amber-400 font-mono">[ ${triggered ? 'Ativado' : 'Desativado'} ]</div>
+                            </div>
+                            <div class="w-8 h-1 bg-slate-600"></div>
+                            <div onclick="setProbe('P_MOTOR', 'Saída Motor')" class="cursor-pointer bg-slate-800 border-2 ${triggered ? 'border-emerald-500' : 'border-slate-600'} p-4 rounded-2xl text-center shadow-lg hover:scale-105 transition-transform">
+                                <i class="fa-solid fa-fan text-3xl ${triggered ? 'text-blue-400 animate-spin' : 'text-slate-600'}"></i>
+                                <div class="text-xs font-bold mt-1 text-white">Motor / Ventoinha</div>
+                                <div class="text-[10px] text-blue-400 font-mono">[ Ponto Motor ]</div>
+                            </div>
+                        </div>
+                        <div class="text-xs text-slate-400 bg-slate-950 px-4 py-2 rounded-xl border border-slate-800">
+                            Estado do Relé: <strong class="${triggered ? 'text-emerald-400' : 'text-amber-400'}">${triggered ? 'CONTACTOS FECHADOS (Motor Rodando)' : 'CONTACTOS ABERTOS (Motor Parado)'}</strong>
+                        </div>
+                    </div>
+                `;
+                controls.innerHTML = `
+                    <button onclick="toggleRelé()" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl font-bold text-xs shadow">
+                        ${triggered ? 'Desativar Relé' : 'Ativar Relé'}
+                    </button>
+                    <span class="text-xs text-slate-400">Dica: Meça a tensão na saída do relé quando acionado.</span>
+                `;
+            } else if (appState.activeCircuit === 3) {
+                title.innerText = "Circuito 3: Investigação de Avaria com Multímetro";
+                desc.innerText = "Este circuito tem um defeito oculto (fio com alta resistência / mau contacto). Use o multímetro para descobrir!";
+
+                const hasFault = appState.circuitState.faultActive;
+                container.innerHTML = `
+                    <div class="flex flex-col items-center justify-center space-y-6 w-full py-4">
+                        <div class="flex items-center space-x-6">
+                            <div onclick="setProbe('P_DEF_BAT', 'Bateria Avaria')" class="cursor-pointer bg-slate-800 border-2 border-red-500 p-4 rounded-2xl text-center shadow">
+                                <i class="fa-solid fa-car-battery text-2xl text-red-500"></i>
+                                <div class="text-xs font-bold mt-1 text-white">Bateria (12.6V)</div>
+                            </div>
+                            <div class="w-6 h-1 bg-slate-600"></div>
+                            <div onclick="setProbe('P_DEF_FUSE', 'Fusível')" class="cursor-pointer bg-slate-800 border-2 border-emerald-500 p-4 rounded-2xl text-center shadow">
+                                <i class="fa-solid fa-shield text-2xl text-emerald-400"></i>
+                                <div class="text-xs font-bold mt-1 text-white">Fusível (Bom)</div>
+                            </div>
+                            <div class="w-6 h-1 bg-slate-600"></div>
+                            <div onclick="setProbe('P_DEF_CABLE', 'Cabo com Defeito')" class="cursor-pointer bg-slate-800 border-2 ${hasFault ? 'border-red-500 bg-red-950/30' : 'border-emerald-500'} p-4 rounded-2xl text-center shadow animate-pulse">
+                                <i class="fa-solid fa-triangle-exclamation text-2xl text-amber-400"></i>
+                                <div class="text-xs font-bold mt-1 text-white">Cabo Principal</div>
+                                <div class="text-[10px] text-red-400 font-mono">${hasFault ? 'Mau Contacto!' : 'Reparado'}</div>
+                            </div>
+                            <div class="w-6 h-1 bg-slate-600"></div>
+                            <div onclick="setProbe('P_DEF_LOAD', 'Carga Final')" class="cursor-pointer bg-slate-800 border-2 border-slate-600 p-4 rounded-2xl text-center shadow">
+                                <i class="fa-solid fa-lightbulb text-2xl text-slate-600"></i>
+                                <div class="text-xs font-bold mt-1 text-white">Farol (Fraco)</div>
+                            </div>
+                        </div>
+                        <div class="text-xs text-amber-400 bg-slate-950 px-4 py-2 rounded-xl border border-slate-800">
+                            Reclamação: A luz do farol brilha muito fraca ou não acende. Efetue testes de queda de tensão!
+                        </div>
+                    </div>
+                `;
+                controls.innerHTML = `
+                    <button onclick="fixCircuitFault()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 rounded-xl font-bold text-xs shadow">
+                        Reparar Cabo Corroído
+                    </button>
+                    <span class="text-xs text-slate-400">Dica: Meça em Modo V DC antes e depois do cabo.</span>
+                `;
+            }
+            updateMultimeterDisplay();
+        }
+
+        function toggleCircuitSwitch() {
+            appState.circuitState.switchClosed = !appState.circuitState.switchClosed;
+            initLabCircuit();
+        }
+
+        function toggleRelé() {
+            appState.circuitState.relayTriggered = !appState.circuitState.relayTriggered;
+            initLabCircuit();
+        }
+
+        function resetCircuitFault() {
+            appState.circuitState.faultActive = true;
+            initLabCircuit();
+        }
+
+        function fixCircuitFault() {
+            appState.circuitState.faultActive = false;
+            initLabCircuit();
+            alertBox("Avaria reparada com sucesso! O cabo foi limpo e o contacto restabelecido.");
+        }
+
+        /* -------------------------------------------------------------------------- */
+        /* MULTIMETER LOGIC                                                           */
+        /* -------------------------------------------------------------------------- */
+        function setMultimeterMode(mode) {
+            appState.multimeter.mode = mode;
+            ['VDC', 'OHM', 'CONT'].forEach(m => {
+                const btn = document.getElementById(`modeBtn${m}`);
+                if (m === mode) {
+                    btn.className = "py-2.5 px-2 rounded-xl text-xs font-bold bg-blue-600 text-white shadow transition-all";
+                } else {
+                    btn.className = "py-2.5 px-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition-all";
+                }
+            });
+
+            document.getElementById('multimeterModeLabel').innerText = mode === 'VDC' ? 'DC VOLTS' : (mode === 'OHM' ? 'RESISTÊNCIA' : 'CONTINUIDADE');
+            updateMultimeterDisplay();
+        }
+
+        function setProbe(probeId, probeName) {
+            if (!appState.multimeter.probeRed) {
+                appState.multimeter.probeRed = probeId;
+                document.getElementById('probeRedState').innerText = probeName;
+            } else if (!appState.multimeter.probeBlack) {
+                appState.multimeter.probeBlack = probeId;
+                document.getElementById('probeBlackState').innerText = probeName;
+            } else {
+                appState.multimeter.probeRed = probeId;
+                appState.multimeter.probeBlack = null;
+                document.getElementById('probeRedState').innerText = probeName;
+                document.getElementById('probeBlackState').innerText = 'Nenhum';
+            }
+            updateMultimeterDisplay();
+        }
+
+        function resetProbes() {
+            appState.multimeter.probeRed = null;
+            appState.multimeter.probeBlack = null;
+            document.getElementById('probeRedState').innerText = 'Nenhum';
+            document.getElementById('probeBlackState').innerText = 'Nenhum';
+            updateMultimeterDisplay();
+        }
+
+        function updateMultimeterDisplay() {
+            const screen = document.getElementById('multimeterScreen');
+            const unit = document.getElementById('multimeterUnit');
+            const sub = document.getElementById('multimeterSubText');
+            const { mode, probeRed, probeBlack } = appState.multimeter;
+
+            if (!probeRed) {
+                screen.innerHTML = `0.00 <span class="text-xl">${mode === 'OHM' ? 'Ω' : (mode === 'VDC' ? 'V' : '')}</span>`;
+                sub.innerText = "Conecte a ponta vermelha a um ponto de teste.";
+                return;
+            }
+
+            let val = 0.00;
+            let u = 'V';
+
+            if (mode === 'VDC') {
+                u = 'V';
+                if (appState.activeCircuit === 1) {
+                    if (probeRed === 'P_BAT') val = 12.60;
+                    else if (probeRed === 'P_LAMP') val = appState.circuitState.switchClosed ? 12.55 : 0.00;
+                } else if (appState.activeCircuit === 2) {
+                    if (probeRed === 'P_RELAY_IN') val = 12.60;
+                    else if (probeRed === 'P_MOTOR') val = appState.circuitState.relayTriggered ? 12.45 : 0.00;
+                } else if (appState.activeCircuit === 3) {
+                    if (probeRed === 'P_DEF_BAT') val = 12.60;
+                    else if (probeRed === 'P_DEF_FUSE') val = 12.58;
+                    else if (probeRed === 'P_DEF_CABLE') val = appState.circuitState.faultActive ? 4.20 : 12.50;
+                    else if (probeRed === 'P_DEF_LOAD') val = appState.circuitState.faultActive ? 3.80 : 12.45;
+                }
+            } else if (mode === 'OHM') {
+                u = 'Ω';
+                if (probeRed === 'P_DEF_CABLE' && appState.circuitState.faultActive) {
+                    val = 45.2; // Alta resistência devido a corrosão
+                } else {
+                    val = 0.2; // Resistência normal de cabo/contacto
+                }
+            } else if (mode === 'CONT') {
+                u = '';
+                if (probeRed === 'P_DEF_CABLE' && appState.circuitState.faultActive) {
+                    screen.innerHTML = `<span class="text-amber-400 text-2xl font-bold">OL (Aberto)</span>`;
+                    sub.innerText = "Sem continuidade. Alta resistência detetada!";
+                    return;
+                } else {
+                    screen.innerHTML = `<span class="text-emerald-400 text-2xl font-bold">BEEP ♫</span>`;
+                    sub.innerText = "Continuidade OK!";
+                    return;
+                }
+            }
+
+            screen.innerHTML = `${val.toFixed(2)} <span class="text-xl">${u}</span>`;
+            sub.innerText = `Medição ativa entre ${probeRed} e massa.`;
+        }
+
+        /* -------------------------------------------------------------------------- */
+        /* WORKSHOP DIAGNOSTICS (OFICINA VIRTUAL)                                     */
+        /* -------------------------------------------------------------------------- */
+        function renderWorkshop() {
+            const container = document.getElementById('workshopCasesContainer');
+            const activeView = document.getElementById('workshopActiveCase');
+            activeView.classList.add('hidden');
+            container.classList.remove('hidden');
+
+            container.innerHTML = appState.workshopCases.map(c => `
+                <div class="bg-white dark:bg-darkCard p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between space-y-4">
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-mono font-bold text-purple-600 dark:text-purple-400">${c.vehicle}</span>
+                            ${c.solved ? '<span class="bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400 text-xs px-2.5 py-0.5 rounded-full font-bold">Resolvido</span>' : '<span class="bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400 text-xs px-2.5 py-0.5 rounded-full font-bold">Em Diagnóstico</span>'}
+                        </div>
+                        <h3 class="font-bold text-lg">${c.title}</h3>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 line-clamp-3">"${c.symptom}"</p>
+                    </div>
+                    <button onclick="openWorkshopCase(${c.id})" class="w-full bg-purple-600 hover:bg-purple-700 text-white py-2.5 rounded-xl font-bold text-xs shadow transition-all">
+                        ${c.solved ? 'Ver Relatório' : 'Iniciar Diagnóstico'}
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function openWorkshopCase(caseId) {
+            const c = appState.workshopCases.find(item => item.id === caseId);
+            const container = document.getElementById('workshopCasesContainer');
+            const activeView = document.getElementById('workshopActiveCase');
+
+            container.classList.add('hidden');
+            activeView.classList.remove('hidden');
+
+            activeView.innerHTML = `
+                <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-4">
+                    <div>
+                        <span class="text-xs font-mono text-purple-600 dark:text-purple-400 font-bold">${c.vehicle}</span>
+                        <h2 class="text-2xl font-extrabold mt-1">${c.title}</h2>
+                    </div>
+                    <button onclick="renderWorkshop()" class="text-sm text-slate-500 hover:text-blue-600 font-semibold flex items-center space-x-1">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>Voltar à Oficina</span>
+                    </button>
+                </div>
+
+                <div class="bg-purple-50 dark:bg-purple-950/30 p-5 rounded-2xl border border-purple-200 dark:border-purple-900/50 space-y-2">
+                    <h4 class="font-bold text-sm text-purple-900 dark:text-purple-300 flex items-center space-x-2">
+                        <i class="fa-solid fa-comment-dots"></i>
+                        <span>Reclamação do Cliente:</span>
+                    </h4>
+                    <p class="text-sm text-slate-700 dark:text-slate-300 italic">"${c.symptom}"</p>
+                </div>
+
+                <div class="space-y-4">
+                    <h4 class="font-bold text-sm">Selecione o procedimento de investigação a realizar:</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="diagnosisOptions">
+                        <button onclick="checkDiagnosisAction(${c.id}, 'bateria_fraca')" class="p-4 rounded-xl border border-slate-200 dark:border-slate-700 text-left hover:border-purple-500 transition-all text-xs font-semibold">
+                            1. Testar tensão de repouso e queda de tensão no arranque da bateria.
+                        </button>
+                        <button onclick="checkDiagnosisAction(${c.id}, 'fusivel_curto')" class="p-4 rounded-xl border border-slate-200 dark:border-slate-700 text-left hover:border-purple-500 transition-all text-xs font-semibold">
+                            2. Inspecionar caixa de fusíveis e continuidade do circuito afetado.
+                        </button>
+                        <button onclick="checkDiagnosisAction(${c.id}, 'sensor_temperatura')" class="p-4 rounded-xl border border-slate-200 dark:border-slate-700 text-left hover:border-purple-500 transition-all text-xs font-semibold">
+                            3. Medir resistência e sinal do sensor com multímetro/scanner.
+                        </button>
+                        <button onclick="checkDiagnosisAction(${c.id}, 'trocar_peca_sorte')" class="p-4 rounded-xl border border-slate-200 dark:border-slate-700 text-left hover:border-purple-500 transition-all text-xs font-semibold">
+                            4. Substituir a centralina ECU às cegas.
+                        </button>
+                    </div>
+                </div>
+
+                <div id="workshopFeedback" class="hidden p-4 rounded-xl font-bold text-sm"></div>
+            `;
+        }
+
+        function checkDiagnosisAction(caseId, action) {
+            const c = appState.workshopCases.find(item => item.id === caseId);
+            const feedback = document.getElementById('workshopFeedback');
+            feedback.classList.remove('hidden');
+
+            if (action === c.correctAction) {
+                c.solved = true;
+                saveState();
+                feedback.className = "p-4 rounded-xl font-bold text-sm bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400";
+                feedback.innerHTML = `<i class="fa-solid fa-circle-check mr-2"></i> Diagnóstico Correto! A causa foi identificada e o problema resolvido com sucesso.`;
+            } else {
+                feedback.className = "p-4 rounded-xl font-bold text-sm bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400";
+                feedback.innerHTML = `<i class="fa-solid fa-circle-xmark mr-2"></i> Procedimento inadequado para este sintoma. Reveja os testes necessários.`;
+            }
+        }
+
+        function alertBox(msg) {
+            alert(msg); // Custom styled fallback alert if needed, or native
+        }
+
+        /* -------------------------------------------------------------------------- */
+        /* INITIALIZATION ON LOAD                                                     */
+        /* -------------------------------------------------------------------------- */
+        window.onload = function() {
+            loadState();
+            // Apply theme
+            if (appState.currentTheme === 'light') {
+                document.documentElement.classList.remove('dark');
+                document.getElementById('themeIcon').className = 'fa-solid fa-sun text-lg text-amber-500';
+            }
+            router.navigate('home');
+        };
+    </script>
+</body>
+</html>
